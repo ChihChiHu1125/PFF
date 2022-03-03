@@ -49,4 +49,25 @@ end
 %=====================================================================================================
 
 Just need to make sure we are referring to the right subroutine. For example, here we use "H_linear".
-Also,
+Note that the above lines is how we "generate synthetic observation" from the truth (assuming perfect observation operator).
+We also need to evaluate the model equivalence (i.e., the ensemble in the observation space), by the following:
+
+%=====================================================================================================
+% evaluate the observation operator and its adjoint:
+for i=1:ny_obs
+    inner_ind   = inner_domain{i};
+    
+    % observation operator:
+    Hx(i,:)     = H_linear(squeeze(pseudo_X(inner_ind ,:,s)));
+
+    % adjoint of the observation operator
+    tmp_dHdx    = H_linear_adjoint(squeeze(pseudo_X(inner_ind ,:,s))); % analytical sol for the adjoint
+    dHdx(i,inner_ind,:) = tmp_dHdx; % fill in the zeros for the adjoint 
+end
+%=====================================================================================================
+
+Note here we need the adjoint of the observation operator, which is defined by the subroutine H_linear_adjoint.
+
+If you would like to create your own observations, please remember to both code the "observation operator" (e.g., H_linear)
+and its associated "adjoint" (e.g., H_linear_adjoint)
+
