@@ -2,4 +2,21 @@ PFF: the main script for running data assimilation experiment
 /diagnostics: the output diagnostic file for experiment results (from running PFF.m)
 /subroutines: contains Lorenz model, SVD, observation operators and their adjoint
 
+To change the observation, you need to:
+(1) change the "inner domain" of the observation
 
+The inner domain for observation is the subset of state variables that are used to evaluate the observation operator. 
+For example: Lorenz 96 model with 40 variables (denoted as x1,x2,...,x40); observation operator H1(x1,x2,...,x40) = x1+x2
+Note that H1 can be written as H1(x1,x2), since it does not require information from x3,...,x40. So the inner domain of H1 is {x1,x2}
+We need to define the inner domain for each observation as below:
+
+dim = 40;
+% This observation is just identity obs, but not observing all grid points
+% for example, y1=x2, y2=x4,...
+obs_den      = 2;                         % observation density (every obs_den -th grids are observed)
+obs_input    = [obs_den:obs_den:dim]';    % a column vector, each row is the inner domain for a obs
+[ny_obs, n_inner] = size(obs_input);
+inner_domain = mat2cell(obs_input, [ones(1,ny_obs)],[1]);
+
+In this example, there are 40/2 = 20 observations. We would like to observe every other grid point (i.e., x2, x4, ..., x40). 
+Each observation is "identity mapping", which is defined by the subroutine 
