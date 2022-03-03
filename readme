@@ -35,4 +35,18 @@ Hx = X;
 end
 %=====================================================================================================
 
+We also need to modify the lines where the code evaluate the observation operator, 
 
+%=====================================================================================================
+% Step 2 -- Generate the observation
+if io_obs == 1
+    obs_time = (t+1)/da_intv; % the "n-th" observation time (should be an integer)
+    for i=1:ny_obs
+        inner_ind       = inner_domain{i};
+        obs(i,obs_time) = H_linear( Xt(inner_ind, warm_nt+t+1) ) + obs_rnd(i,obs_time);
+    end
+end
+%=====================================================================================================
+
+Just need to make sure we are referring to the right subroutine. For example, here we use "H_linear".
+Also,
