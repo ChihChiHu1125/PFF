@@ -10,7 +10,8 @@ For example: Lorenz 96 model with 40 variables (denoted as x1,x2,...,x40); obser
 Note that H1 can be written as H1(x1,x2), since it only requires information from x1 and x2 (not from x3,x4,...,x40). 
 So the inner domain of H1 is {x1,x2}
 
-For example, now consider we would like to observe observe every other grid point (i.e., x2, x4, ..., x40).
+The following is the default observations in PFF.m:
+now consider we would like to observe observe every other grid point (i.e., x2, x4, ..., x40).
 In this case, each observation is "identity mapping", which is defined by the subroutine "H_linear" (as below), which basically
 takes whatever input is as the output. In this case, the inner domain for the first observation is {x2} , {x4} for the second observation, ... 
 {x40} for the 20-th observation. There are 40/2 observations. We define the inner domain by the following lines:
