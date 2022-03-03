@@ -2,7 +2,7 @@ PFF: the main script for running data assimilation experiment
 /diagnostics: the output diagnostic file for experiment results (from running PFF.m)
 /subroutines: contains Lorenz model, SVD, observation operators and their adjoint
 
-In order to change the observation, you need to do the following:
+In order to change the observation, need to do the following:
 
 We need to first define the "inner domain" for each observation.
 The inner domain for observation is the subset of state variables that are used to evaluate the observation operator. 
