@@ -15,16 +15,26 @@ First need to tell the MATLAB code what is the **inner domain** for each observa
 The **inner domain** for an observation is defined as *the subset of state variables that are used to evaluate the observation operator.* 
 For example: In an Lorenz 96 model with 40 variables (denoted as x1,x2,...,x40), let's assume we have an observation operator:
 
-$ H1(x1,x2,...,x40) = x1+x2 $
+H1(x1,x2,...,x40) = x1+x2
 
-Note that H1 can be written as H1(x1,x2), since it only requires information from x1 and x2 (not from x3,x4,...,x40). 
+Note that H1 can be written as H1(x1,x2), since it only requires information from two of the variables: x1 and x2 (not from x3,x4,...,x40). 
 So the inner domain of H1 is {x1,x2}
 
 The following is the default observations in PFF.m:
-now consider we would like to observe observe every other grid point (i.e., x2, x4, ..., x40).
+
+Now consider we would like to observe observe every other grid point (i.e., x2, x4, ..., x40).
 In this case, each observation is "identity mapping", which is defined by the subroutine "H_linear" (as below), which basically
-takes whatever input is as the output. In this case, the inner domain for the first observation is {x2} , {x4} for the second observation, ... 
-{x40} for the 20-th observation. There are 40/2 observations. We define the inner domain by the following lines:
+takes whatever input is as the output. 
+
+```
+function Hx = H_linear(X)
+[dim_inner, np] = size(X);    % np: # of ens member
+Hx = X;
+end
+```
+
+In this case, the inner domain for the first observation is {x2} , for the second observation is {x4} , ... 
+for the 20-th observation is {x40}. There are 40/2 observations. We define the inner domain by the following MATALB codes:
 
 ```
 dim = 40;
@@ -36,15 +46,9 @@ obs_input    = [obs_den:obs_den:dim]';    % a column vector, each row is the inn
 inner_domain = mat2cell(obs_input, [ones(1,ny_obs)],[1]);
 ```
 
-Note that obs_input defines the inner domain (specifically, each row is the inner domain for each observation).
-Note that we turn obs_input from a matrix to a "cell" inner_domain. By doing this, we allow variable size of inner domain for each observation.
+Note that *obs_input* defines the inner domain (specifically, each row is the inner domain for each observation).
+Note that we turn *obs_input* from a matrix to a "cell" inner_domain. By doing this, we allow variable size of inner domain for each observation.
 
-```
-function Hx = H_linear(X)
-[dim_inner, np] = size(X);    % np: # of ens member
-Hx = X;
-end
-```
 
 We also need to modify the lines where the code evaluate the observation operator, 
 
@@ -60,7 +64,7 @@ end
 ```
 
 Just need to make sure we are referring to the right subroutine. For example, here we use "H_linear".
-Note that the above lines is how we "generate synthetic observation" from the truth (assuming perfect observation operator).
+Note that the above lines is how we "generate synthetic observation" from the truth (assuming perfect observation operator, i.e., OSSE).
 We also need to evaluate the model equivalence (i.e., the ensemble in the observation space), by the following:
 
 ```
