@@ -14,9 +14,9 @@ First need to tell the MATLAB code what is the **inner domain** for each observa
 
 The **inner domain** for an observation is defined as *the subset of state variables that are used to evaluate the observation operator.* 
 For example: In an Lorenz 96 model with 40 variables (denoted as x1,x2,...,x40), let's assume we have an observation operator:
-```
-H1(x1,x2,...,x40) = x1+x2
-```
+
+$ H1(x1,x2,...,x40) = x1+x2 $
+
 Note that H1 can be written as H1(x1,x2), since it only requires information from x1 and x2 (not from x3,x4,...,x40). 
 So the inner domain of H1 is {x1,x2}
 
