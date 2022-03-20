@@ -1,8 +1,13 @@
-# MATLAB file descriptions:
+# Particle Flow Filter for Lorenz 96 
+
+## MATLAB files:
 PFF: the main script for running data assimilation experiment
 /diagnostics: the output diagnostic file for experiment results (from running PFF.m)
 /subroutines: contains Lorenz model, SVD, observation operators and their adjoint
 
+## Tips for changing code (for testing different experiment)
+
+### Change the observation
 In order to change the observation, need to do the following:
 
 We need to first define the "inner domain" for each observation.
