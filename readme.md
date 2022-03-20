@@ -35,16 +35,16 @@ inner_domain = mat2cell(obs_input, [ones(1,ny_obs)],[1]);
 Note that obs_input defines the inner domain (specifically, each row is the inner domain for each observation).
 Note that we turn obs_input from a matrix to a "cell" inner_domain. By doing this, we allow variable size of inner domain for each observation.
 
-%=====================================================================================================
+```
 function Hx = H_linear(X)
 [dim_inner, np] = size(X);    % np: # of ens member
 Hx = X;
 end
-%=====================================================================================================
+```
 
 We also need to modify the lines where the code evaluate the observation operator, 
 
-%=====================================================================================================
+```
 % Step 2 -- Generate the observation
 if io_obs == 1
     obs_time = (t+1)/da_intv; % the "n-th" observation time (should be an integer)
@@ -53,13 +53,13 @@ if io_obs == 1
         obs(i,obs_time) = H_linear( Xt(inner_ind, warm_nt+t+1) ) + obs_rnd(i,obs_time);
     end
 end
-%=====================================================================================================
+```
 
 Just need to make sure we are referring to the right subroutine. For example, here we use "H_linear".
 Note that the above lines is how we "generate synthetic observation" from the truth (assuming perfect observation operator).
 We also need to evaluate the model equivalence (i.e., the ensemble in the observation space), by the following:
 
-%=====================================================================================================
+```
 % evaluate the observation operator and its adjoint:
 for i=1:ny_obs
     inner_ind   = inner_domain{i};
@@ -71,7 +71,7 @@ for i=1:ny_obs
     tmp_dHdx    = H_linear_adjoint(squeeze(pseudo_X(inner_ind ,:,s))); % analytical sol for the adjoint
     dHdx(i,inner_ind,:) = tmp_dHdx; % fill in the zeros for the adjoint 
 end
-%=====================================================================================================
+```
 
 Note here we need the adjoint of the observation operator, which is defined by the subroutine H_linear_adjoint.
 
