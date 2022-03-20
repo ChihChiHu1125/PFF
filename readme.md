@@ -2,8 +2,8 @@
 
 ## MATLAB files:
 - *PFF.m*: the main script for running data assimilation experiment
-- */diagnostics/*.m*: the output diagnostic file for experiment results (from running PFF.m)
-- */subroutines/*.m*: contains Lorenz model, SVD, observation operators and their adjoint
+- */diagnostics/*: the output diagnostic file for experiment results (from running PFF.m)
+- */subroutines/*: contains Lorenz model, SVD, observation operators and their adjoint
 
 ## Tips for changing code (for testing different experiment)
 
