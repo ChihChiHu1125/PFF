@@ -22,7 +22,7 @@ In this case, each observation is "identity mapping", which is defined by the su
 takes whatever input is as the output. In this case, the inner domain for the first observation is {x2} , {x4} for the second observation, ... 
 {x40} for the 20-th observation. There are 40/2 observations. We define the inner domain by the following lines:
 
-%=====================================================================================================
+```
 dim = 40;
 % This observation is just identity obs, but not observing all grid points
 % for example, y1=x2, y2=x4,...
@@ -30,7 +30,7 @@ obs_den      = 2;                         % observation density (every obs_den -
 obs_input    = [obs_den:obs_den:dim]';    % a column vector, each row is the inner domain for a obs
 [ny_obs, n_inner] = size(obs_input);
 inner_domain = mat2cell(obs_input, [ones(1,ny_obs)],[1]);
-%=====================================================================================================
+```
 
 Note that obs_input defines the inner domain (specifically, each row is the inner domain for each observation).
 Note that we turn obs_input from a matrix to a "cell" inner_domain. By doing this, we allow variable size of inner domain for each observation.
