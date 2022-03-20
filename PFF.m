@@ -11,7 +11,7 @@ nt       = 200;                % number of integration timestep
 t_start  = 1;                  % the (re)start time of the model
 warm_nt  = 1000;               % warm up time for the Lorenz model
 gen_ens  = 1;                  % generate_ens = 1: (for the first run) / generate_ens = 0 (for other run)
-np       = 20;                 % number of particles
+np       = 30;                 % number of particles
 
 % parameters for the L96 model:
 dim = 40;                    % dimension for lorenz 96 model
@@ -94,7 +94,7 @@ Xt (:,1) = F*ones(dim,1);  % initial condition (for steady state)
 Xt(dim/5:dim/5:dim) = F+1; % perturbed IC (to generate chaotic behavior)
 
 for t=1:warm_nt + nt -1
-    Xt(:,t+1) = L9640_RK4(Xt(:,t),dt,F);
+    Xt(:,t+1) = L96_RK4(Xt(:,t),dt,F);
 end
 
 %% Generate the ensemble
@@ -210,6 +210,7 @@ for i=1:ny_obs
     % adjoint of the observation operator
     tmp_dHdx    = H_linear_adjoint(squeeze(pseudo_X(inner_ind ,:,s))); % analytical sol for the adjoint
 %     tmp_dHdx    = H_linear_sum_adjoint(squeeze(pseudo_X(inner_ind ,:,s)), weights); % analytical sol for the adjoint 
+%     tmp_dHdx    = adjoint_pseudoinverse(squeeze(pseudo_X(inner_ind ,:,s)), Hx(i,:), cond_num); % pseudo inverse for the adjoint
     dHdx(i,inner_ind,:) = tmp_dHdx; % fill in the zeros for the adjoint 
 end
 

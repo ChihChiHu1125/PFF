@@ -1,11 +1,17 @@
 function [A_inv] = inv_SVD(A,cond_num,option);
+% 2022/03/20: fix the notations for the V and U orthogonal matrices 
 % compute the inverse of a matrix A using the given condition number
 % option = 1: calculate the inverse of A
 % option = 2: calculate the square root of A
 
-[u,sig,v] = svd(A);
-sig_val   = diag(sig);
-sig_inv   = sig; % a matrix for storge
+[v,sig,u] = svd(A);
+[m,n]     = size(sig);
+sig_val   = zeros(1,min(m,n));
+for i=1:min(m,n)
+    sig_val(i) = sig(i,i);
+end
+
+sig_inv   = sig'; % a matrix for storge
 
 if option == 1
 for i=1:length(sig_val)
